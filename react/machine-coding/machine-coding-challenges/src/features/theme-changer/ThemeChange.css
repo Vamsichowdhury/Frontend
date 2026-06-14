@@ -1,0 +1,12 @@
+.light-theme {
+  background-color: #ffffff;
+  color: #000000;
+}
+.dark-theme {
+  background-color: #000000;
+  color: #ffffff;
+}
+.container {
+  height: 100vh;
+  width: 100%;
+}
