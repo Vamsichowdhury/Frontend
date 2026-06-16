@@ -1,5 +1,6 @@
 import "./App.css";
-import ContactForm from "./features/contact-form/ContactForm";
+import PreviousCounter from "./features/use-previous/PreviousCounter";
+// import ContactForm from "./features/contact-form/ContactForm";
 // import FilterRecepies from "./features/flter-recepies/FilterRecepies";
 // import Accordian from "./features/accordian/Accordian";
 // import ThemeChange from "./features/theme-changer/ThemeChange";
@@ -18,7 +19,8 @@ function App() {
         {/* <Accordian /> */}
         {/* <ThemeChange /> */}
         {/* <FilterRecepies /> */}
-        <ContactForm />
+        {/* <ContactForm /> */}
+        <PreviousCounter />
       </div>
     </>
   );
