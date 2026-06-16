@@ -1,5 +1,8 @@
 import "./App.css";
-import PreviousCounter from "./features/use-previous/PreviousCounter";
+import TooltipPracticeApp from "./features/tooltip/TooltipPracticeApp";
+// import CopyClipboard from "./features/copy-clipboard/CopyClipboard";
+// import PasswordStrength from "./features/password-strength/PasswordStrength";
+// import PreviousCounter from "./features/use-previous/PreviousCounter";
 // import ContactForm from "./features/contact-form/ContactForm";
 // import FilterRecepies from "./features/flter-recepies/FilterRecepies";
 // import Accordian from "./features/accordian/Accordian";
@@ -20,7 +23,10 @@ function App() {
         {/* <ThemeChange /> */}
         {/* <FilterRecepies /> */}
         {/* <ContactForm /> */}
-        <PreviousCounter />
+        {/* <PreviousCounter /> */}
+        {/* <PasswordStrength /> */}
+        {/* <CopyClipboard /> */}
+        <TooltipPracticeApp />
       </div>
     </>
   );

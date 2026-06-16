@@ -761,4 +761,585 @@ The browser steps to render a page:
 
 ---
 
-_Last updated: June 2026 | Covers HTML5 standards_
+# CSS `display` Properties
+
+## 1. `display: block`
+
+- Takes full available width.
+- Starts on a new line.
+- Width and height can be set.
+
+```css
+div {
+  display: block;
+}
+```
+
+Examples:
+
+- `div`
+- `p`
+- `h1` - `h6`
+- `section`
+
+---
+
+## 2. `display: inline`
+
+- Stays in the same line.
+- Takes only content width.
+- Width and height cannot be set reliably.
+- Margin-top and margin-bottom do not work as expected.
+
+```css
+span {
+  display: inline;
+}
+```
+
+Examples:
+
+- `span`
+- `a`
+- `strong`
+
+---
+
+## 3. `display: inline-block`
+
+- Stays inline.
+- Width and height can be set.
+- Most commonly used for buttons, tags, badges, tooltip triggers.
+
+```css
+.button {
+  display: inline-block;
+}
+```
+
+---
+
+## 4. `display: flex`
+
+- Creates a flex container.
+- Arranges children in rows or columns.
+- Excellent for layouts and alignment.
+
+```css
+.container {
+  display: flex;
+}
+```
+
+Common Properties:
+
+```css
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+```
+
+---
+
+## 5. `display: inline-flex`
+
+- Behaves like flex.
+- Container itself remains inline.
+
+```css
+.container {
+  display: inline-flex;
+}
+```
+
+Useful for:
+
+```html
+<button>
+  <icon />
+  Delete
+</button>
+```
+
+---
+
+## 6. `display: grid`
+
+- Creates a grid layout.
+- Supports rows and columns.
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+```
+
+---
+
+## 7. `display: inline-grid`
+
+- Grid container.
+- Remains inline.
+
+```css
+.container {
+  display: inline-grid;
+}
+```
+
+---
+
+## 8. `display: none`
+
+- Completely removes element from layout.
+- Element is not rendered.
+
+```css
+.hidden {
+  display: none;
+}
+```
+
+```html
+<div class="hidden">Invisible</div>
+```
+
+---
+
+## 9. `display: contents`
+
+- Parent disappears visually.
+- Children remain in the DOM flow.
+
+```css
+.wrapper {
+  display: contents;
+}
+```
+
+Before:
+
+```html
+<div class="wrapper">
+  <button>Save</button>
+</div>
+```
+
+After rendering, browser behaves as if:
+
+```html
+<button>Save</button>
+```
+
+---
+
+## 10. `display: table`
+
+Makes element behave like a table.
+
+```css
+.container {
+  display: table;
+}
+```
+
+Related values:
+
+```css
+display: table-row;
+display: table-cell;
+```
+
+Rarely used today.
+
+---
+
+# Interview Summary
+
+| Display Value | New Line | Width/Height | Common Use        |
+| ------------- | -------- | ------------ | ----------------- |
+| block         | ✅       | ✅           | Layout sections   |
+| inline        | ❌       | ❌           | Text elements     |
+| inline-block  | ❌       | ✅           | Buttons, tooltips |
+| flex          | ✅       | ✅           | Layouts           |
+| inline-flex   | ❌       | ✅           | Inline layouts    |
+| grid          | ✅       | ✅           | 2D layouts        |
+| inline-grid   | ❌       | ✅           | Inline grids      |
+| none          | N/A      | N/A          | Hide element      |
+| contents      | N/A      | N/A          | Remove wrapper    |
+| table         | ✅       | ✅           | Legacy layouts    |
+
+# Most Common in React Projects
+
+1. `block`
+2. `inline-block`
+3. `flex`
+4. `grid`
+5. `none`
+
+These cover about 95% of day-to-day frontend development.
+
+# CSS Position Property
+
+The `position` property determines how an element is positioned in the document.
+
+---
+
+# 1. `position: static` (Default)
+
+- Every element is `static` by default.
+- Follows normal document flow.
+- `top`, `right`, `bottom`, `left`, and `z-index` do not work.
+
+```css
+.box {
+  position: static;
+}
+```
+
+```html
+<div class="box">Static Element</div>
+```
+
+---
+
+# 2. `position: relative`
+
+- Element remains in normal flow.
+- Can be moved using `top`, `right`, `bottom`, `left`.
+- Creates a positioning context for absolutely positioned children.
+
+```css
+.box {
+  position: relative;
+  top: 10px;
+  left: 20px;
+}
+```
+
+Before:
+
+```text
+[Box]
+```
+
+After:
+
+```text
+      [Box]
+```
+
+### Most Common Use
+
+```css
+.parent {
+  position: relative;
+}
+
+.child {
+  position: absolute;
+}
+```
+
+Used in:
+
+- Tooltips
+- Modals
+- Dropdowns
+- Badges
+
+---
+
+# 3. `position: absolute`
+
+- Removed from normal document flow.
+- Positioned relative to nearest ancestor that is:
+  - relative
+  - absolute
+  - fixed
+  - sticky
+
+```css
+.popup {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+```
+
+Example:
+
+```html
+<div class="parent">
+  <div class="popup"></div>
+</div>
+```
+
+```css
+.parent {
+  position: relative;
+}
+
+.popup {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+```
+
+```text
++----------------+
+| Parent         |
+|            [X] |
++----------------+
+```
+
+---
+
+# 4. `position: fixed`
+
+- Removed from normal flow.
+- Positioned relative to viewport.
+- Does not move during scrolling.
+
+```css
+.button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+```
+
+Example:
+
+```text
+Browser Window
+
+-------------------
+|                 |
+|                 |
+|             [↑] |
+-------------------
+```
+
+Even when scrolling:
+
+```text
+Scroll ↓
+
+-------------------
+|                 |
+|                 |
+|             [↑] |
+-------------------
+```
+
+Common Uses:
+
+- Chat button
+- Back-to-top button
+- Sticky floating actions
+
+---
+
+# 5. `position: sticky`
+
+- Behaves like `relative` initially.
+- Becomes `fixed` when scroll threshold is reached.
+
+```css
+.header {
+  position: sticky;
+  top: 0;
+}
+```
+
+Example:
+
+```text
+Scroll
+
+Header
+Content
+Content
+Content
+```
+
+After scrolling:
+
+```text
+[Header] ← stays at top
+Content
+Content
+Content
+```
+
+Common Uses:
+
+- Navigation bars
+- Table headers
+- Sidebar menus
+
+---
+
+# Position Offsets
+
+Used with:
+
+```css
+top
+right
+bottom
+left
+```
+
+Example:
+
+```css
+.box {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+}
+```
+
+```text
+(20px)
+     →
++----------------+
+|  Box           |
++----------------+
+↑
+10px
+```
+
+---
+
+# z-index
+
+Controls stacking order.
+
+```css
+.modal {
+  position: fixed;
+  z-index: 1000;
+}
+```
+
+Higher value appears on top.
+
+```text
+z-index: 3  ← Top
+z-index: 2
+z-index: 1  ← Bottom
+```
+
+Works only on positioned elements:
+
+```css
+relative
+absolute
+fixed
+sticky
+```
+
+---
+
+# Positioning Context Rule
+
+An absolutely positioned element searches upward for the nearest ancestor with:
+
+```css
+position: relative;
+position: absolute;
+position: fixed;
+position: sticky;
+```
+
+Example:
+
+```html
+<div class="grandparent">
+  <div class="parent">
+    <div class="child"></div>
+  </div>
+</div>
+```
+
+```css
+.parent {
+  position: relative;
+}
+
+.child {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+```
+
+The child positions itself relative to `.parent`.
+
+---
+
+# Interview Summary
+
+| Position | In Normal Flow? | Reference Point             |
+| -------- | --------------- | --------------------------- |
+| static   | ✅              | N/A                         |
+| relative | ✅              | Itself                      |
+| absolute | ❌              | Nearest positioned ancestor |
+| fixed    | ❌              | Viewport                    |
+| sticky   | ✅ → ❌         | Scroll container            |
+
+---
+
+# Most Common React Use Cases
+
+## Tooltip
+
+```css
+.tooltip {
+  position: relative;
+}
+
+.popup {
+  position: absolute;
+}
+```
+
+## Modal Close Button
+
+```css
+.modal {
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+```
+
+## Floating Action Button
+
+```css
+.fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+```
+
+## Sticky Navbar
+
+```css
+.navbar {
+  position: sticky;
+  top: 0;
+}
+```

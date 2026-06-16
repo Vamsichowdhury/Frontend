@@ -1,0 +1,11 @@
+.tooltip-popup {
+  position: absolute; /* positions the tooltip relative to the button */
+  top: 20%;
+  left: 40%;
+  background-color: #333; /* dark background for the tooltip */
+  color: #fff; /* white text for contrast */
+  padding: 5px 10px; /* some padding for better readability */
+  border-radius: 4px; /* rounded corners for aesthetics */
+  white-space: nowrap; /* prevents the tooltip text from wrapping */
+  z-index: 1000; /* ensures the tooltip appears above other elements */
+}

@@ -1,0 +1,4 @@
+.tooltip-container {
+  display: inline-block; /* inline-block allows button not to take full width */
+  position: relative; /* ensures that the tooltip is positioned relative to the button */
+}
