@@ -1,5 +1,6 @@
 import "./App.css";
-import FilterRecepies from "./features/flter-recepies/FilterRecepies";
+import ContactForm from "./features/contact-form/ContactForm";
+// import FilterRecepies from "./features/flter-recepies/FilterRecepies";
 // import Accordian from "./features/accordian/Accordian";
 // import ThemeChange from "./features/theme-changer/ThemeChange";
 // import ImageGallery from "./features/image-gallery/ImageGallery";
@@ -16,7 +17,8 @@ function App() {
         {/* <ImageGallery /> */}
         {/* <Accordian /> */}
         {/* <ThemeChange /> */}
-        <FilterRecepies />
+        {/* <FilterRecepies /> */}
+        <ContactForm />
       </div>
     </>
   );
