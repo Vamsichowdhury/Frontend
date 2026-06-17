@@ -1,0 +1,15 @@
+.scrollButton {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0; /* Initially hidden */
+  z-index: 1000; /* Ensure it appears above other content */
+}
