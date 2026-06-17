@@ -1,5 +1,6 @@
 import "./App.css";
-import ScrollToTop from "./features/scroll-to-top/ScrollToTop";
+import BlogPost from "./features/blog-post/BlogPost";
+// import ScrollToTop from "./features/scroll-to-top/ScrollToTop";
 // import TooltipPracticeApp from "./features/tooltip/TooltipPracticeApp";
 // import CopyClipboard from "./features/copy-clipboard/CopyClipboard";
 // import PasswordStrength from "./features/password-strength/PasswordStrength";
@@ -28,7 +29,8 @@ function App() {
         {/* <PasswordStrength /> */}
         {/* <CopyClipboard /> */}
         {/* <TooltipPracticeApp /> */}
-        <ScrollToTop />
+        {/* <ScrollToTop /> */}
+        <BlogPost />
       </div>
     </>
   );
