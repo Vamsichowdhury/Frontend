@@ -12,7 +12,8 @@ import "./App.css";
 // import ImageGallery from "./features/image-gallery/ImageGallery";
 // import AnagramChecker from "./features/anagram-checker/AnagramChecker";
 // import Counter from "./features/Counter/Counter";
-import TogglePassword from "./features/toggle-password/TogglePassword";
+// import TogglePassword from "./features/toggle-password/TogglePassword";
+import CustomToggle from "./features/custom-hook-toggle/CustomToggle";
 
 function App() {
   return (
@@ -32,7 +33,8 @@ function App() {
         {/* <TooltipPracticeApp /> */}
         {/* <ScrollToTop /> */}
         {/* <BlogPost /> */}
-        <TogglePassword />
+        {/* <TogglePassword /> */}
+        <CustomToggle />
       </div>
     </>
   );
