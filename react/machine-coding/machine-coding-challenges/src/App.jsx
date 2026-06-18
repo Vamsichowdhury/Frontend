@@ -1,5 +1,5 @@
 import "./App.css";
-import BlogPost from "./features/blog-post/BlogPost";
+// import BlogPost from "./features/blog-post/BlogPost";
 // import ScrollToTop from "./features/scroll-to-top/ScrollToTop";
 // import TooltipPracticeApp from "./features/tooltip/TooltipPracticeApp";
 // import CopyClipboard from "./features/copy-clipboard/CopyClipboard";
@@ -12,6 +12,7 @@ import BlogPost from "./features/blog-post/BlogPost";
 // import ImageGallery from "./features/image-gallery/ImageGallery";
 // import AnagramChecker from "./features/anagram-checker/AnagramChecker";
 // import Counter from "./features/Counter/Counter";
+import TogglePassword from "./features/toggle-password/TogglePassword";
 
 function App() {
   return (
@@ -30,7 +31,8 @@ function App() {
         {/* <CopyClipboard /> */}
         {/* <TooltipPracticeApp /> */}
         {/* <ScrollToTop /> */}
-        <BlogPost />
+        {/* <BlogPost /> */}
+        <TogglePassword />
       </div>
     </>
   );
