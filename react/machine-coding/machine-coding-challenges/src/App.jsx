@@ -13,7 +13,8 @@ import "./App.css";
 // import AnagramChecker from "./features/anagram-checker/AnagramChecker";
 // import Counter from "./features/Counter/Counter";
 // import TogglePassword from "./features/toggle-password/TogglePassword";
-import CustomToggle from "./features/custom-hook-toggle/CustomToggle";
+// import CustomToggle from "./features/custom-hook-toggle/CustomToggle";
+import TabSwitcher from "./features/tab-switcher/TabSwitcher";
 
 function App() {
   return (
@@ -34,7 +35,8 @@ function App() {
         {/* <ScrollToTop /> */}
         {/* <BlogPost /> */}
         {/* <TogglePassword /> */}
-        <CustomToggle />
+        {/* <CustomToggle /> */}
+        <TabSwitcher />
       </div>
     </>
   );
