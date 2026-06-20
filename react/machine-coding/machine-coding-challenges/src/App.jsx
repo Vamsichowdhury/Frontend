@@ -14,7 +14,8 @@ import "./App.css";
 // import Counter from "./features/Counter/Counter";
 // import TogglePassword from "./features/toggle-password/TogglePassword";
 // import CustomToggle from "./features/custom-hook-toggle/CustomToggle";
-import TabSwitcher from "./features/tab-switcher/TabSwitcher";
+// import TabSwitcher from "./features/tab-switcher/TabSwitcher";
+import AgeCalculator from "./features/age-calc/AgeCalculator";
 
 function App() {
   return (
@@ -36,7 +37,8 @@ function App() {
         {/* <BlogPost /> */}
         {/* <TogglePassword /> */}
         {/* <CustomToggle /> */}
-        <TabSwitcher />
+        {/* <TabSwitcher /> */}
+        <AgeCalculator />
       </div>
     </>
   );
