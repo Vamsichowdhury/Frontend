@@ -1,4 +1,5 @@
 import "./App.css";
+import FocusInput from "./features/focus/FocusInput";
 // import BlogPost from "./features/blog-post/BlogPost";
 // import ScrollToTop from "./features/scroll-to-top/ScrollToTop";
 // import TooltipPracticeApp from "./features/tooltip/TooltipPracticeApp";
@@ -15,7 +16,8 @@ import "./App.css";
 // import TogglePassword from "./features/toggle-password/TogglePassword";
 // import CustomToggle from "./features/custom-hook-toggle/CustomToggle";
 // import TabSwitcher from "./features/tab-switcher/TabSwitcher";
-import AgeCalculator from "./features/age-calc/AgeCalculator";
+// import AgeCalculator from "./features/age-calc/AgeCalculator";
+// import ReadMoreLess from "./features/read-more-less/ReadMoreLess";
 
 function App() {
   return (
@@ -38,7 +40,9 @@ function App() {
         {/* <TogglePassword /> */}
         {/* <CustomToggle /> */}
         {/* <TabSwitcher /> */}
-        <AgeCalculator />
+        {/* <AgeCalculator /> */}
+        {/* <ReadMoreLess /> */}
+        <FocusInput />
       </div>
     </>
   );
