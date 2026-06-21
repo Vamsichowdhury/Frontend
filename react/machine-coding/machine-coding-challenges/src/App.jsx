@@ -1,5 +1,6 @@
 import "./App.css";
-import FocusInput from "./features/focus/FocusInput";
+// import FocusInput from "./features/focus/FocusInput";
+import UndoRedo from "./features/undo-redo/UndoRedo";
 // import BlogPost from "./features/blog-post/BlogPost";
 // import ScrollToTop from "./features/scroll-to-top/ScrollToTop";
 // import TooltipPracticeApp from "./features/tooltip/TooltipPracticeApp";
@@ -42,7 +43,8 @@ function App() {
         {/* <TabSwitcher /> */}
         {/* <AgeCalculator /> */}
         {/* <ReadMoreLess /> */}
-        <FocusInput />
+        {/* <FocusInput /> */}
+        <UndoRedo />
       </div>
     </>
   );
