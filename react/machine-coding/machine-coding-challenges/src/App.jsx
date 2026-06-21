@@ -1,5 +1,6 @@
 import "./App.css";
-import Calculator from "./features/calc/Calculator";
+// import Calculator from "./features/calc/Calculator";
+import DragDrop from "./features/drag-drop/DragDrop";
 // import FocusInput from "./features/focus/FocusInput";
 // import UndoRedo from "./features/undo-redo/UndoRedo";
 // import BlogPost from "./features/blog-post/BlogPost";
@@ -46,7 +47,8 @@ function App() {
         {/* <ReadMoreLess /> */}
         {/* <FocusInput /> */}
         {/* <UndoRedo /> */}
-        <Calculator />
+        {/* <Calculator /> */}
+        <DragDrop />
       </div>
     </>
   );
