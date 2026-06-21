@@ -1,6 +1,7 @@
 import "./App.css";
 // import Calculator from "./features/calc/Calculator";
-import DragDrop from "./features/drag-drop/DragDrop";
+// import DragDrop from "./features/drag-drop/DragDrop";
+import Toast from "./features/toast/Toast";
 // import FocusInput from "./features/focus/FocusInput";
 // import UndoRedo from "./features/undo-redo/UndoRedo";
 // import BlogPost from "./features/blog-post/BlogPost";
@@ -48,7 +49,8 @@ function App() {
         {/* <FocusInput /> */}
         {/* <UndoRedo /> */}
         {/* <Calculator /> */}
-        <DragDrop />
+        {/* <DragDrop /> */}
+        <Toast />
       </div>
     </>
   );
