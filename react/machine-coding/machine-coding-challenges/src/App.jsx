@@ -1,6 +1,7 @@
 import "./App.css";
+import Calculator from "./features/calc/Calculator";
 // import FocusInput from "./features/focus/FocusInput";
-import UndoRedo from "./features/undo-redo/UndoRedo";
+// import UndoRedo from "./features/undo-redo/UndoRedo";
 // import BlogPost from "./features/blog-post/BlogPost";
 // import ScrollToTop from "./features/scroll-to-top/ScrollToTop";
 // import TooltipPracticeApp from "./features/tooltip/TooltipPracticeApp";
@@ -44,7 +45,8 @@ function App() {
         {/* <AgeCalculator /> */}
         {/* <ReadMoreLess /> */}
         {/* <FocusInput /> */}
-        <UndoRedo />
+        {/* <UndoRedo /> */}
+        <Calculator />
       </div>
     </>
   );
