@@ -8,7 +8,7 @@
 
 ## Easy
 
-- Two Sum
+- [Two Sum](https://leetcode.com/problems/two-sum/description/ "https://leetcode.com/problems/two-sum/description/")
 - Contains Duplicate
 - Valid Anagram
 - Ransom Note
