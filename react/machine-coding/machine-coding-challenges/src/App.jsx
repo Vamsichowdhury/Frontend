@@ -1,8 +1,8 @@
 import "./App.css";
-import Star from "./features/star/Star";
+// import Star from "./features/star/Star";
 // import Calculator from "./features/calc/Calculator";
 // import DragDrop from "./features/drag-drop/DragDrop";
-// import Toast from "./features/toast/Toast";
+import Toast from "./features/toast/Toast";
 // import FocusInput from "./features/focus/FocusInput";
 // import UndoRedo from "./features/undo-redo/UndoRedo";
 // import BlogPost from "./features/blog-post/BlogPost";
@@ -51,8 +51,8 @@ function App() {
         {/* <UndoRedo /> */}
         {/* <Calculator /> */}
         {/* <DragDrop /> */}
-        {/* <Toast /> */}
-        <Star />
+        <Toast />
+        {/* <Star /> */}
       </div>
     </>
   );
