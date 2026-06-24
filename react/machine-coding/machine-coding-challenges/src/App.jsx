@@ -1,9 +1,10 @@
 import "./App.css";
+import StopWatch from "./features/stop-watch/StopWatch";
 // import Star from "./features/star/Star";
 // import Calculator from "./features/calc/Calculator";
 // import DragDrop from "./features/drag-drop/DragDrop";
 // import Toast from "./features/toast/Toast";
-import TrafficLights from "./features/traffic-lights/TrafficLights";
+// import TrafficLights from "./features/traffic-lights/TrafficLights";
 // import FocusInput from "./features/focus/FocusInput";
 // import UndoRedo from "./features/undo-redo/UndoRedo";
 // import BlogPost from "./features/blog-post/BlogPost";
@@ -54,7 +55,8 @@ function App() {
         {/* <DragDrop /> */}
         {/* <Toast /> */}
         {/* <Star /> */}
-        <TrafficLights />
+        {/* <TrafficLights /> */}
+        <StopWatch />
       </div>
     </>
   );
