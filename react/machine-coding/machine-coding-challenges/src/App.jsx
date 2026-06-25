@@ -1,5 +1,6 @@
 import "./App.css";
-import StopWatch from "./features/stop-watch/StopWatch";
+import PinItems from "./features/pin-items/PinItems";
+// import StopWatch from "./features/stop-watch/StopWatch";
 // import Star from "./features/star/Star";
 // import Calculator from "./features/calc/Calculator";
 // import DragDrop from "./features/drag-drop/DragDrop";
@@ -56,7 +57,8 @@ function App() {
         {/* <Toast /> */}
         {/* <Star /> */}
         {/* <TrafficLights /> */}
-        <StopWatch />
+        {/* <StopWatch /> */}
+        <PinItems />
       </div>
     </>
   );
