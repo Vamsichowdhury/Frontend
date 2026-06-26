@@ -1,6 +1,6 @@
 import "./App.css";
 import PinItems from "./features/pin-items/PinItems";
-import TransferList from "./features/transfer-list/TransferList";
+// import TransferList from "./features/transfer-list/TransferList";
 // import StopWatch from "./features/stop-watch/StopWatch";
 // import Star from "./features/star/Star";
 // import Calculator from "./features/calc/Calculator";
@@ -59,8 +59,8 @@ function App() {
         {/* <Star /> */}
         {/* <TrafficLights /> */}
         {/* <StopWatch /> */}
-        {/* <PinItems /> */}
-        <TransferList />
+        <PinItems />
+        {/* <TransferList /> */}
       </div>
     </>
   );
