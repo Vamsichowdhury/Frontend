@@ -16,7 +16,6 @@
 - Group By
 - Chunk Array
 - Remove Duplicates from Array
-- Frequency Counter
 - Array Intersection
 - Array Difference
 
