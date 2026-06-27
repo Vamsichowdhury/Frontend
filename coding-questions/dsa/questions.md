@@ -16,7 +16,6 @@
 - Majority Element
 - Word Pattern
 - Happy Number
-- Single Number
 - Longest Palindrome
 
 ## Medium
@@ -36,7 +35,6 @@
 
 ## Easy
 
-- Valid Palindrome
 - Move Zeroes
 - Merge Sorted Array
 - Reverse String
