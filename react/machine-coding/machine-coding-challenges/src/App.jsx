@@ -1,5 +1,6 @@
 import "./App.css";
-import GridLights from "./features/grid-lights/GridLights";
+// import GridLights from "./features/grid-lights/GridLights";
+import TicTacToe from "./features/tic-tac-toe/TicTacToe";
 // import PinItems from "./features/pin-items/PinItems";
 // import TransferList from "./features/transfer-list/TransferList";
 // import StopWatch from "./features/stop-watch/StopWatch";
@@ -62,7 +63,8 @@ function App() {
         {/* <StopWatch /> */}
         {/* <PinItems /> */}
         {/* <TransferList /> */}
-        <GridLights />
+        {/* <GridLights /> */}
+        <TicTacToe />
       </div>
     </>
   );
