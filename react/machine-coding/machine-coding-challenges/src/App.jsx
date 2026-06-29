@@ -1,7 +1,8 @@
 import "./App.css";
+import GridLightsII from "./features/grid-lights-2/GridLightsII";
 // import GridLights from "./features/grid-lights/GridLights";
 // import TicTacToe from "./features/tic-tac-toe/TicTacToe";
-import WordCounter from "./features/word-counter/WordCounter";
+// import WordCounter from "./features/word-counter/WordCounter";
 // import PinItems from "./features/pin-items/PinItems";
 // import TransferList from "./features/transfer-list/TransferList";
 // import StopWatch from "./features/stop-watch/StopWatch";
@@ -66,7 +67,8 @@ function App() {
         {/* <TransferList /> */}
         {/* <GridLights /> */}
         {/* <TicTacToe /> */}
-        <WordCounter />
+        {/* <WordCounter /> */}
+        <GridLightsII />
       </div>
     </>
   );
