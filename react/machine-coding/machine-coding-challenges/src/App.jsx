@@ -1,5 +1,6 @@
 import "./App.css";
-import GridLightsII from "./features/grid-lights-2/GridLightsII";
+import Quiz from "./features/quiz-app/Quiz";
+// import GridLightsII from "./features/grid-lights-2/GridLightsII";
 // import GridLights from "./features/grid-lights/GridLights";
 // import TicTacToe from "./features/tic-tac-toe/TicTacToe";
 // import WordCounter from "./features/word-counter/WordCounter";
@@ -68,7 +69,8 @@ function App() {
         {/* <GridLights /> */}
         {/* <TicTacToe /> */}
         {/* <WordCounter /> */}
-        <GridLightsII />
+        {/* <GridLightsII /> */}
+        <Quiz />
       </div>
     </>
   );
