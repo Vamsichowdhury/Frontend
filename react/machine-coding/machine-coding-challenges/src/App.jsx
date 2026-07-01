@@ -1,5 +1,6 @@
 import "./App.css";
-import JsonFormatterValidator from "./features/json-formatter-validator/JsonFormatterValidator";
+// import JsonFormatterValidator from "./features/json-formatter-validator/JsonFormatterValidator";
+import Typewriter from "./features/typewriter-effect/Typewriter";
 // import Quiz from "./features/quiz-app/Quiz";
 // import GridLightsII from "./features/grid-lights-2/GridLightsII";
 // import GridLights from "./features/grid-lights/GridLights";
@@ -72,7 +73,8 @@ function App() {
         {/* <WordCounter /> */}
         {/* <GridLightsII /> */}
         {/* <Quiz /> */}
-        <JsonFormatterValidator />
+        {/* <JsonFormatterValidator /> */}
+        <Typewriter />
       </div>
     </>
   );
