@@ -1,295 +1,174 @@
-# LeetCode 1456 - Maximum Number of Vowels in a Substring of Given Length
+# Maximum Number of Vowels in a Substring of Given Length
 
-## Problem Statement
+## Brute Force Approach
 
-Given a string `s` and an integer `k`, return the maximum number of vowel letters in any substring of `s` with length `k`.
+### Intuition
 
-Vowels are:
+We need to find the maximum number of vowels present in any substring of length `k`.
 
-```text
-a, e, i, o, u
-```
+The simplest idea is:
 
----
+1. Generate every possible substring of length `k`.
+2. Count how many vowels are present in that substring.
+3. Keep track of the maximum count seen so far.
 
-## Example
-
-```js
-Input: s = "abciiidef";
-k = 3;
-
-Output: 3;
-```
-
-Explanation:
-
-```text
-Substring = "iii"
-
-Number of vowels = 3
-```
+The problem with this approach is that we repeatedly count vowels for overlapping substrings, resulting in unnecessary work.
 
 ---
 
-# Brute Force Approach
-
-## Intuition
-
-Generate every substring of size `k`.
-
-For each substring:
-
-1. Count vowels.
-2. Keep track of maximum vowel count.
-
----
-
-## Visual Representation
+### Example
 
 ```text
 s = "abciiidef"
 k = 3
 
-Window 1
-[abc]
- vowels = 1
+Possible substrings:
 
-Window 2
-[bci]
- vowels = 1
+abc -> 1 vowel
+bci -> 1 vowel
+cii -> 2 vowels
+iii -> 3 vowels
+iid -> 2 vowels
+ide -> 2 vowels
+def -> 1 vowel
 
-Window 3
-[cii]
- vowels = 2
-
-Window 4
-[iii]
- vowels = 3
-
-Window 5
-[iid]
- vowels = 2
-
-Window 6
-[ide]
- vowels = 2
-
-Window 7
-[def]
- vowels = 1
-```
-
-Maximum:
-
-```text
-3
+Answer = 3
 ```
 
 ---
 
-## Brute Force Code
+### Algorithm
 
-```js
-var maxVowels = function (s, k) {
-  const vowels = new Set(["a", "e", "i", "o", "u"]);
+For every possible starting index:
 
-  let maxCount = 0;
-
-  for (let i = 0; i <= s.length - k; i++) {
-    let count = 0;
-
-    for (let j = i; j < i + k; j++) {
-      if (vowels.has(s[j])) {
-        count++;
-      }
-    }
-
-    maxCount = Math.max(maxCount, count);
-  }
-
-  return maxCount;
-};
-```
+1. Create a window of size `k`.
+2. Count vowels inside that window.
+3. Update the maximum count.
 
 ---
 
-## Time Complexity
+### Complexity
 
 ```text
-Outer Loop = O(n)
-
-Inner Loop = O(k)
-
-Total = O(n * k)
-```
-
----
-
-## Space Complexity
-
-```text
-O(1)
+Time Complexity: O((n - k + 1) * k)
+Space Complexity: O(1)
 ```
 
 ---
 
 # Optimized Approach (Sliding Window)
 
-## Observation
+## Intuition
 
-When moving from one window to the next:
+Notice that adjacent windows overlap heavily.
 
-```text
-abc
-bci
-```
-
-Most characters stay the same.
-
-Only:
-
-```text
-a leaves
-i enters
-```
-
-Instead of recounting all vowels:
-
-1. Remove effect of outgoing character.
-2. Add effect of incoming character.
-
----
-
-## Visual Representation
-
-### Initial Window
+Example:
 
 ```text
 s = "abciiidef"
 k = 3
 
-[a b c]
- L   R
-
-Vowel Count = 1
-Max = 1
+abc
+ bci
+  cii
+   iii
 ```
+
+When moving from one window to the next:
+
+- Only one character leaves the window.
+- Only one character enters the window.
+
+Instead of recounting all `k` characters, we can update the vowel count using just these two characters.
+
+This is the core idea behind the **Sliding Window** technique.
 
 ---
 
-### Slide Window
+### Visual Representation
 
 ```text
-[b c i]
-
-Remove 'a' (vowel)
-Count = 1 - 1 = 0
-
-Add 'i' (vowel)
-Count = 0 + 1 = 1
-
-Max = 1
-```
-
----
-
-### Slide Window
-
-```text
-[c i i]
-
-Remove 'b'
-Count = 1
-
-Add 'i'
-Count = 2
-
-Max = 2
-```
-
----
-
-### Slide Window
-
-```text
-[i i i]
-
-Remove 'c'
-Count = 2
-
-Add 'i'
-Count = 3
-
-Max = 3
-```
-
----
-
-# Dry Run
-
-```text
-String = abciiidef
+s = "abciiidef"
 k = 3
+
+Window 1:
+
+[a b c]
+ count = 1
+
+Slide →
+
+[a] leaves
+[i] enters
+
+[b c i]
+ count = 1
+
+Slide →
+
+[b] leaves
+[i] enters
+
+[c i i]
+ count = 2
+
+Slide →
+
+[c] leaves
+[i] enters
+
+[i i i]
+ count = 3
 ```
 
-| Window | Vowel Count |
-| ------ | ----------- |
-| abc    | 1           |
-| bci    | 1           |
-| cii    | 2           |
-| iii    | 3           |
-| iid    | 2           |
-| ide    | 2           |
-| def    | 1           |
+---
 
-Maximum:
+## Approach
+
+### Step 1: Count vowels in the first window
 
 ```text
-3
+[a b c]
+
+count = 1
+maxCount = 1
 ```
 
 ---
 
-# Approach
+### Step 2: Slide the window
 
-### Step 1
+For every new window:
 
-Count vowels in first window.
-
-```js
-for (let i = 0; i < k; i++) {
-  if (isVowel(s[i])) count++;
-}
-```
-
----
-
-### Step 2
-
-Store as maximum.
-
-```js
-maxCount = count;
-```
-
----
-
-### Step 3
-
-Slide the window.
-
-Before moving:
+#### Outgoing Character
 
 ```text
-Remove left character
-Add right character
+s[i - k]
+```
+
+If it is a vowel:
+
+```js
+count--;
 ```
 
 ---
 
-### Step 4
+#### Incoming Character
 
-Update maximum.
+```text
+s[i]
+```
+
+If it is a vowel:
+
+```js
+count++;
+```
+
+---
+
+#### Update Answer
 
 ```js
 maxCount = Math.max(maxCount, count);
@@ -297,113 +176,110 @@ maxCount = Math.max(maxCount, count);
 
 ---
 
-# Optimized Code
+## Dry Run
 
-```js
-var maxVowels = function (s, k) {
-  const vowels = new Set(["a", "e", "i", "o", "u"]);
+### Initial Window
 
-  let count = 0;
+```text
+[a b c]
 
-  // First Window
-  for (let i = 0; i < k; i++) {
-    if (vowels.has(s[i])) {
-      count++;
-    }
-  }
-
-  let maxCount = count;
-
-  // Slide Window
-  for (let i = k; i < s.length; i++) {
-    if (vowels.has(s[i - k])) {
-      count--;
-    }
-
-    if (vowels.has(s[i])) {
-      count++;
-    }
-
-    maxCount = Math.max(maxCount, count);
-  }
-
-  return maxCount;
-};
+count = 1
+maxCount = 1
 ```
 
 ---
 
-# Time Complexity
-
-### First Window
+### Window 2
 
 ```text
-O(k)
-```
+[b c i]
 
-### Sliding Window
+Outgoing: a (vowel) -> count = 0
+Incoming: i (vowel) -> count = 1
 
-```text
-O(n - k)
-```
-
-### Total
-
-```text
-O(n)
+maxCount = 1
 ```
 
 ---
 
-# Space Complexity
+### Window 3
 
 ```text
-O(1)
-```
+[c i i]
 
-(Only a few variables are used.)
+Outgoing: b (not vowel)
+Incoming: i (vowel)
 
----
-
-# Sliding Window Formula
-
-Whenever a window moves:
-
-```text
-New Count
-
-=
-Old Count
-- Outgoing Character Contribution
-+ Incoming Character Contribution
-```
-
-For this problem:
-
-```text
-If outgoing char is vowel → count--
-
-If incoming char is vowel → count++
+count = 2
+maxCount = 2
 ```
 
 ---
 
-# Pattern Recognition
-
-If the question contains:
+### Window 4
 
 ```text
-✓ Contiguous Substring
-✓ Fixed Size k
-✓ Maximum Count
-✓ Character Frequency
-✓ Vowels / Digits / Letters
+[i i i]
+
+Outgoing: c (not vowel)
+Incoming: i (vowel)
+
+count = 3
+maxCount = 3
 ```
+
+---
+
+### Remaining Windows
+
+```text
+[i i d] -> 2
+[i d e] -> 2
+[d e f] -> 1
+```
+
+Maximum remains:
+
+```text
+3
+```
+
+---
+
+## Complexity
+
+```text
+Time Complexity: O(n)
+
+Reason:
+- First window takes O(k)
+- Sliding through remaining characters takes O(n - k)
+
+Overall: O(n)
+```
+
+```text
+Space Complexity: O(1)
+```
+
+---
+
+## Sliding Window Pattern
+
+Whenever a problem asks:
+
+- Substring of fixed size `k`
+- Subarray of fixed size `k`
+- Maximum/Minimum/Sum/Count within a fixed window
 
 Think:
 
 ```text
-FIXED SIZE SLIDING WINDOW
+1. Process first window.
+2. Slide the window.
+3. Remove outgoing element.
+4. Add incoming element.
+5. Update answer.
 ```
 
-This problem is one of the most common beginner-level Sliding Window interview questions.
+This avoids recalculating everything from scratch and usually reduces the complexity from **O(n × k)** to **O(n)**.
