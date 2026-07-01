@@ -1,5 +1,6 @@
 import "./App.css";
-import Quiz from "./features/quiz-app/Quiz";
+import JsonFormatterValidator from "./features/json-formatter-validator/JsonFormatterValidator";
+// import Quiz from "./features/quiz-app/Quiz";
 // import GridLightsII from "./features/grid-lights-2/GridLightsII";
 // import GridLights from "./features/grid-lights/GridLights";
 // import TicTacToe from "./features/tic-tac-toe/TicTacToe";
@@ -70,7 +71,8 @@ function App() {
         {/* <TicTacToe /> */}
         {/* <WordCounter /> */}
         {/* <GridLightsII /> */}
-        <Quiz />
+        {/* <Quiz /> */}
+        <JsonFormatterValidator />
       </div>
     </>
   );
