@@ -1,0 +1,133 @@
+/* CSS variables are defined in host-app/src/App.css.
+   All var() calls here include light-theme fallbacks for standalone mode. */
+
+/* ── Orders page ─────────────────────────────────────────────── */
+.orders-page {
+  padding: 32px 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.orders-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text, #1e293b);
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+}
+
+.orders-empty {
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: var(--radius, 8px);
+  padding: 32px;
+  text-align: center;
+  color: var(--text-muted, #64748b);
+  font-size: 0.95rem;
+}
+
+/* ── Order card ──────────────────────────────────────────────── */
+.order-card {
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: var(--radius, 8px);
+  padding: 20px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow, 0 1px 3px 0 rgb(0 0 0 / 0.1));
+  transition:
+    box-shadow 200ms ease,
+    border-color 200ms ease;
+}
+
+.order-card:hover {
+  box-shadow: var(--shadow-lg, 0 10px 15px -3px rgb(0 0 0 / 0.1));
+  border-color: var(--primary, #6366f1);
+}
+
+.order-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.order-card__id {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text, #1e293b);
+}
+
+.order-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.order-card__date {
+  font-size: 0.8rem;
+  color: var(--text-muted, #64748b);
+}
+
+.order-card__items {
+  font-size: 0.875rem;
+  color: var(--text-muted, #64748b);
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+
+.order-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid var(--border, #e2e8f0);
+}
+
+.order-card__total {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text, #1e293b);
+}
+
+/* ── Buttons ────────────────────────────────────────────────── */
+.btn {
+  cursor: pointer;
+  border-radius: var(--radius, 8px);
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: inherit;
+  padding: 7px 14px;
+  border: 1px solid var(--border, #e2e8f0);
+  background: var(--surface, #ffffff);
+  color: var(--text, #1e293b);
+  transition:
+    background 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+  line-height: 1;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--bg-secondary, #f1f5f9);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn--danger {
+  background: transparent;
+  border-color: var(--danger, #ef4444);
+  color: var(--danger, #ef4444);
+}
+
+.btn--danger:hover:not(:disabled) {
+  background: var(--danger, #ef4444);
+  color: #ffffff;
+}
+
+.btn--sm {
+  padding: 5px 10px;
+  font-size: 0.8rem;
+}

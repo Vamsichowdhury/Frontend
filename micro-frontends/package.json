@@ -1,0 +1,10 @@
+{
+  "name": "micro-frontends",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n \"api,products,cart,orders,wishlist,host\" -c \"yellow,cyan,green,blue,red,magenta\" \"cd api && npm run dev\" \"cd products-listing-mfe && npm run dev\" \"cd cart-mfe && npm run dev\" \"cd orders-mfe && npm run dev\" \"cd wishlist-mfe && npm run dev\" \"cd host-app && npm run dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

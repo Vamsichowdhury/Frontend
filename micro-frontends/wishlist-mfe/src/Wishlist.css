@@ -1,0 +1,161 @@
+/* CSS variables come from host-app/src/App.css when federated.
+   All var() calls include light-theme fallbacks for standalone mode. */
+
+.wishlist-page {
+  padding: 32px 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.wishlist-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text, #1e293b);
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+}
+
+.wishlist-empty {
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: var(--radius, 8px);
+  padding: 32px;
+  text-align: center;
+  color: var(--text-muted, #64748b);
+  font-size: 0.95rem;
+}
+
+.wishlist-link {
+  display: inline-block;
+  color: var(--primary, #6366f1);
+  text-decoration: none;
+  font-size: 0.875rem;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.wishlist-link:hover {
+  text-decoration: underline;
+}
+
+/* ── List view ───────────────────────────────────────────────── */
+.wishlist-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wishlist-item {
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: var(--radius, 8px);
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.wishlist-item:hover {
+  border-color: var(--primary, #6366f1);
+  box-shadow: var(--shadow, 0 1px 3px 0 rgb(0 0 0 / 0.1));
+}
+
+.wishlist-item__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  text-decoration: none;
+  color: var(--text, #1e293b);
+}
+
+.wishlist-item__name {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.wishlist-item__price {
+  font-weight: 700;
+  color: var(--primary, #6366f1);
+  font-size: 0.95rem;
+}
+
+/* ── Detail view ─────────────────────────────────────────────── */
+.wishlist-detail {
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: var(--radius, 8px);
+  padding: 32px;
+  box-shadow: var(--shadow, 0 1px 3px 0 rgb(0 0 0 / 0.1));
+}
+
+.wishlist-detail__name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text, #1e293b);
+  margin-bottom: 8px;
+}
+
+.wishlist-detail__price {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--primary, #6366f1);
+  margin-bottom: 12px;
+}
+
+.wishlist-detail__meta {
+  font-size: 0.85rem;
+  color: var(--text-muted, #64748b);
+  margin-bottom: 24px;
+}
+
+.wishlist-detail__actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────── */
+.btn {
+  cursor: pointer;
+  border-radius: var(--radius, 8px);
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: inherit;
+  padding: 9px 16px;
+  border: 1px solid var(--border, #e2e8f0);
+  background: var(--surface, #ffffff);
+  color: var(--text, #1e293b);
+  transition:
+    background 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+  line-height: 1;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--bg-secondary, #f1f5f9);
+}
+
+.btn--primary {
+  background: var(--primary, #6366f1);
+  border-color: var(--primary, #6366f1);
+  color: var(--primary-fg, #ffffff);
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: var(--primary-hover, #4f46e5);
+  border-color: var(--primary-hover, #4f46e5);
+}
+
+.btn--danger {
+  background: transparent;
+  border-color: var(--danger, #ef4444);
+  color: var(--danger, #ef4444);
+}
+
+.btn--danger:hover:not(:disabled) {
+  background: var(--danger, #ef4444);
+  color: #ffffff;
+}

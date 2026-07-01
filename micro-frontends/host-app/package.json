@@ -1,0 +1,21 @@
+{
+  "name": "host-app",
+  "version": "1.0.0",
+  "description": "Host application - loads Counter Button and Counter Display MFEs",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.4"
+  },
+  "devDependencies": {
+    "@module-federation/vite": "^1.1.7",
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.2"
+  }
+}
