@@ -24,3 +24,17 @@ Array.prototype.myMap = function (callback) {
 
 const result = arr.myMap(modifyArray); // similar to : const result = someFuncName(), basically we are calling a myMap function which is attached to the array.prototype
 console.log(result); // [2, 4, 6, 8, 10]
+
+// arr.myMap or arr.map() is like accessing a function of an object
+
+const obj = {
+  name: "John",
+  age: 30,
+  greet: function () {
+    console.log(
+      `Hello, my name is ${this.name} and I am ${this.age} years old.`,
+    );
+  },
+};
+
+obj.greet(); // here obj.greet() is similar to arr.map() or arr.myMap(), we are accessing a function of an object. In this case, the greet function is a method of the obj object, and it uses the this keyword to refer to the obj object itself. When we call obj.greet(), it logs a message to the console that includes the name and age properties of the obj object.
