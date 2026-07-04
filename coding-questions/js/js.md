@@ -96,6 +96,7 @@
 - Promise.race
 - Promise.any
 - Retry Failed Promise
+- Fake API
 
 ## Hard
 
