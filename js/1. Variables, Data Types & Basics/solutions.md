@@ -1874,3 +1874,533 @@ For everyday calculations, `Number` is usually sufficient.
 - Use `BigInt` only when large integer precision is required.
 
 </details>
+
+---
+
+# 12. Is javascript pass by value or pass by reference ?
+
+# JavaScript: Pass by Value or Pass by Reference?
+
+This is one of the most common JavaScript interview questions.
+
+Many developers say:
+
+> "Primitives are passed by value and objects are passed by reference."
+
+This is **not technically correct**.
+
+## Short Answer
+
+> **JavaScript is always pass-by-value.**
+
+There is **no pass-by-reference** in JavaScript.
+
+The confusion comes from **what the value actually is**.
+
+- **Primitive values** → The value is the actual data (`10`, `"Hello"`, `true`, etc.).
+- **Objects, Arrays, Functions** → The value is a **reference (memory address)** to the object.
+
+So, JavaScript **passes the reference by value**, not the object itself.
+
+---
+
+# Understanding Memory
+
+## Primitive Example
+
+```js
+let x = 10;
+```
+
+Memory:
+
+```
+Stack
+
+x
+┌────┐
+│10  │
+└────┘
+```
+
+The variable stores the **actual value**.
+
+---
+
+## Object Example
+
+```js
+let person = {
+  name: "John",
+};
+```
+
+Memory:
+
+```
+Stack                      Heap
+
+person
+┌─────────┐
+│0x100    │──────────────► {
+└─────────┘                  name: "John"
+                            }
+```
+
+Notice something important:
+
+`person` **does not contain the object.**
+
+It contains:
+
+```
+0x100
+```
+
+which is the memory address (reference) of the object.
+
+That address is itself just another value.
+
+---
+
+# Primitive Example
+
+```js
+let a = 10;
+
+function change(x) {
+  x = 20;
+}
+
+change(a);
+
+console.log(a);
+```
+
+Output
+
+```text
+10
+```
+
+## What happens?
+
+Initially:
+
+```
+a = 10
+```
+
+Calling:
+
+```js
+change(a);
+```
+
+copies the value.
+
+```
+a = 10
+
+↓
+
+x = 10
+```
+
+Now inside the function:
+
+```js
+x = 20;
+```
+
+Only `x` changes.
+
+```
+a = 10
+x = 20
+```
+
+So the original variable remains unchanged.
+
+---
+
+# Object Example
+
+```js
+let person = {
+  name: "John",
+};
+
+function update(obj) {
+  obj.name = "Alice";
+}
+
+update(person);
+
+console.log(person.name);
+```
+
+Output
+
+```text
+Alice
+```
+
+Many people now say:
+
+> "Objects are passed by reference."
+
+Not exactly.
+
+Let's see what actually happens.
+
+Initially:
+
+```
+Stack
+
+person
+│0x100│
+
+Heap
+
+0x100
+{
+  name: "John"
+}
+```
+
+Calling:
+
+```js
+update(person);
+```
+
+copies the value.
+
+But what is the value?
+
+```
+0x100
+```
+
+Now:
+
+```
+person
+│0x100│
+
+obj
+│0x100│
+```
+
+Both variables contain the **same address**.
+
+```
+person ───┐
+           │
+obj ───────┘
+
+          ▼
+
+{
+  name: "John"
+}
+```
+
+When we execute:
+
+```js
+obj.name = "Alice";
+```
+
+both variables still point to the same object.
+
+The object becomes:
+
+```
+{
+  name: "Alice"
+}
+```
+
+So:
+
+```js
+console.log(person.name);
+```
+
+prints:
+
+```text
+Alice
+```
+
+---
+
+# Reassigning the Object
+
+Now consider this example:
+
+```js
+function change(obj) {
+  obj = {
+    name: "Bob",
+  };
+}
+
+let person = {
+  name: "John",
+};
+
+change(person);
+
+console.log(person.name);
+```
+
+Many beginners expect:
+
+```text
+Bob
+```
+
+Actual output:
+
+```text
+John
+```
+
+## Why?
+
+Initially:
+
+```
+person
+
+│0x100│
+```
+
+Calling the function copies the value:
+
+```
+obj
+
+│0x100│
+```
+
+Then:
+
+```js
+obj = {
+  name: "Bob",
+};
+```
+
+creates a **new object**.
+
+Memory now becomes:
+
+```
+Heap
+
+0x100
+{
+  name: "John"
+}
+
+0x200
+{
+  name: "Bob"
+}
+```
+
+Now:
+
+```
+person
+
+│0x100│
+```
+
+and
+
+```
+obj
+
+│0x200│
+```
+
+point to different objects.
+
+```
+person ─────────► {
+                    name: "John"
+                 }
+
+obj ────────────► {
+                    name: "Bob"
+                 }
+```
+
+Since `person` never changed its reference, it still points to the original object.
+
+---
+
+# Visual Summary
+
+## Before Reassignment
+
+```
+person ──────┐
+             │
+obj ─────────┘
+
+          ▼
+
+{
+  name: "John"
+}
+```
+
+## After
+
+```js
+obj = { name: "Bob" };
+```
+
+```
+person ─────────────► {
+                        name: "John"
+                     }
+
+obj ────────────────► {
+                        name: "Bob"
+                     }
+```
+
+Only `obj` starts pointing to a new object.
+
+The original object is untouched.
+
+---
+
+# The Rule
+
+## Primitive
+
+```
+Variable
+   │
+   ▼
+  10
+```
+
+The copied value is:
+
+```
+10
+```
+
+---
+
+## Object
+
+```
+Variable
+   │
+   ▼
+0x100
+```
+
+The copied value is:
+
+```
+0x100
+```
+
+That value happens to be a memory address.
+
+The address is copied—not the object.
+
+---
+
+# Why Do People Say "Pass by Reference"?
+
+Consider:
+
+```js
+let a = { x: 1 };
+let b = a;
+
+b.x = 100;
+
+console.log(a.x);
+```
+
+Output:
+
+```text
+100
+```
+
+Memory:
+
+```
+a
+
+│0x100│
+
+b
+
+│0x100│
+```
+
+Both variables contain the **same copied reference value**.
+
+Changing the object's properties through either variable affects the same object.
+
+This often leads people to incorrectly say:
+
+> "Objects are passed by reference."
+
+The correct statement is:
+
+> "The reference is passed by value."
+
+---
+
+# Interview Answer
+
+> JavaScript is always **pass-by-value**.
+>
+> - For primitive values, the actual value is copied.
+> - For objects, arrays, and functions, the copied value is the reference (memory address) to the object.
+> - This allows multiple variables to point to the same object, so changes to the object's properties are visible through all references.
+> - However, reassigning the parameter to a new object does not affect the original variable because only the copied reference changes.
+>
+> This behavior is often called **pass-by-sharing** or **call-by-sharing**, not pass-by-reference.
+
+---
+
+# Quick Comparison
+
+| Feature                                                | Primitive    | Object                     |
+| ------------------------------------------------------ | ------------ | -------------------------- |
+| Value stored in variable                               | Actual value | Reference (memory address) |
+| Value passed to function                               | Actual value | Reference value            |
+| Assignment inside function affects original variable?  | ❌ No        | ❌ No                      |
+| Modifying object's properties affects original object? | N/A          | ✅ Yes                     |
+| Reassigning parameter affects caller?                  | ❌ No        | ❌ No                      |
+
+---
+
+# Key Takeaway
+
+> **JavaScript never passes variables by reference.**
+
+- Primitive variables store actual values.
+- Object variables store references (memory addresses).
+- When passing arguments, JavaScript always copies the value.
+- For objects, the copied value is simply the object's reference.
+
+This is why JavaScript is accurately described as **pass-by-value**, with objects being **passed by sharing (call-by-sharing)**.
