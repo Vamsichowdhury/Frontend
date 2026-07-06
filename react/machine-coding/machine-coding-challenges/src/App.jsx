@@ -1,6 +1,7 @@
 import "./App.css";
+import RickAndMorty from "./features/rick-and-morty/RickAndMorty";
 // import JsonFormatterValidator from "./features/json-formatter-validator/JsonFormatterValidator";
-import Typewriter from "./features/typewriter-effect/Typewriter";
+// import Typewriter from "./features/typewriter-effect/Typewriter";
 // import Quiz from "./features/quiz-app/Quiz";
 // import GridLightsII from "./features/grid-lights-2/GridLightsII";
 // import GridLights from "./features/grid-lights/GridLights";
@@ -74,7 +75,8 @@ function App() {
         {/* <GridLightsII /> */}
         {/* <Quiz /> */}
         {/* <JsonFormatterValidator /> */}
-        <Typewriter />
+        {/* <Typewriter /> */}
+        <RickAndMorty />
       </div>
     </>
   );
