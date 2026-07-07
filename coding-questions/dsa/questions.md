@@ -89,7 +89,6 @@
 ## Easy
 
 - Valid Parentheses
-- Implement Queue using Stacks
 - Remove All Adjacent Duplicates in String
 - Make The String Great
 
