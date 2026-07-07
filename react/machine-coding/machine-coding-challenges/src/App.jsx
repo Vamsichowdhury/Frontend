@@ -1,5 +1,6 @@
 import "./App.css";
-import RickAndMorty from "./features/rick-and-morty/RickAndMorty";
+import OtpComponent from "./features/otp/OtpComponent";
+// import RickAndMorty from "./features/rick-and-morty/RickAndMorty";
 // import JsonFormatterValidator from "./features/json-formatter-validator/JsonFormatterValidator";
 // import Typewriter from "./features/typewriter-effect/Typewriter";
 // import Quiz from "./features/quiz-app/Quiz";
@@ -76,7 +77,8 @@ function App() {
         {/* <Quiz /> */}
         {/* <JsonFormatterValidator /> */}
         {/* <Typewriter /> */}
-        <RickAndMorty />
+        {/* <RickAndMorty /> */}
+        <OtpComponent />
       </div>
     </>
   );
