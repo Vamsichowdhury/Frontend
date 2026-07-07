@@ -414,4 +414,7 @@
 
 ---
 
-**Total: 225 curated, high-frequency conceptual interview questions across 37 topic areas.**
+# 38. Misscelaneous
+
+226. is js pass by value or pass by reference
+227. what is localeCompare
