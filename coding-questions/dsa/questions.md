@@ -112,13 +112,13 @@
 
 ## Easy
 
-- Range Sum Query – Immutable
+- Running Sum of 1d Array
 - Find Pivot Index
-- Running Sum of 1D Array
 - Maximum Subarray (Kadane's Algorithm)
 
 ## Medium
 
+- Subarray Sum Equals K
 - Product of Array Except Self
 - Continuous Subarray Sum
 
