@@ -247,7 +247,6 @@ Input:
   }
 }
 
-
 Output:
 {
   "a": 1
