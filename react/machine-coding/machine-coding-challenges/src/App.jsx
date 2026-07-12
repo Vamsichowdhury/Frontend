@@ -1,7 +1,7 @@
 import "./App.css";
 // import Debounce from "./features/debounce/Debounce";
-import Throttle from "./features/throttle/Throttle";
-// import OtpComponent from "./features/otp/OtpComponent";
+// import Throttle from "./features/throttle/Throttle";
+import OtpComponent from "./features/otp/OtpComponent";
 // import RickAndMorty from "./features/rick-and-morty/RickAndMorty";
 // import JsonFormatterValidator from "./features/json-formatter-validator/JsonFormatterValidator";
 // import Typewriter from "./features/typewriter-effect/Typewriter";
@@ -80,9 +80,9 @@ function App() {
         {/* <JsonFormatterValidator /> */}
         {/* <Typewriter /> */}
         {/* <RickAndMorty /> */}
-        {/* <OtpComponent /> */}
+        <OtpComponent />
         {/* <Debounce /> */}
-        <Throttle />
+        {/* <Throttle /> */}
       </div>
     </>
   );
