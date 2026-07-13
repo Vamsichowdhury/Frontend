@@ -114,10 +114,10 @@
 
 - Running Sum of 1d Array
 - Find Pivot Index
-- Maximum Subarray (Kadane's Algorithm)
 
 ## Medium
 
+- Maximum Subarray (Kadane's Algorithm)
 - Subarray Sum Equals K
 - Product of Array Except Self
 - Continuous Subarray Sum
