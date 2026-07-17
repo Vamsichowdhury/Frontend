@@ -27,6 +27,50 @@ The goal of a generic `curry` helper is to take _any_ function and automatically
 
 ---
 
+### Simple curry function (fixed number of arguments — no generics)
+
+<details>
+<summary><b>Click to expand answer</b></summary>
+
+If you don't need it to work for _any_ function, and just want to curry a specific function with a known, fixed number of arguments, you don't need `fn.length` checks or recursion at all — just nest plain functions, one per argument.
+
+```js
+function add(a) {
+  return function (b) {
+    return function (c) {
+      return a + b + c;
+    };
+  };
+}
+
+add(1)(2)(3); // 6
+```
+
+**What's happening:**
+
+- `add(1)` runs and returns a new function, remembering `a = 1` (closure).
+- Calling that with `(2)` runs and returns another function, remembering `a = 1` and `b = 2`.
+- Calling that with `(3)` finally has all three values, so it computes and returns `1 + 2 + 3 = 6`.
+
+**Same thing, written with arrow functions (much shorter):**
+
+```js
+const add = (a) => (b) => (c) => a + b + c;
+
+add(1)(2)(3); // 6
+```
+
+**Why this is enough for most interviews:**
+This version directly shows you understand the **core mechanism** — closures returning closures, one argument at a time — without extra machinery. A generic `curry(fn)` helper (further down this doc) is really just automating this exact pattern for _any_ function.
+
+**Interview soundbite:**
+
+> "The simplest way to curry a function is to nest functions, one per argument, where each one returns the next function until the last one computes the actual result. Each nested function closes over the arguments received so far — that's what lets the final call access all of them."
+
+</details>
+
+---
+
 ### Implementing a generic `curry` function
 
 <details>
