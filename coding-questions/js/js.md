@@ -43,7 +43,6 @@
 - Implement Array.prototype.find
 - Implement Array.prototype.some
 - Implement Array.prototype.every
-- Implement Object.assign
 - Implement Promise.all
 
 ---

@@ -2,920 +2,407 @@
 
 ---
 
-# 12. What is an Execution Context, and what does it consist of?
+### 12. What is an execution context, and what does it consist of?
 
 <details>
-<summary><strong>📖 Interview Answer</strong></summary>
+<summary><b>Click to expand answer</b></summary>
 
-An **Execution Context** is the environment in which JavaScript code is executed.
+An **execution context** is the environment in which JavaScript code is evaluated and run. Think of it as a container that holds everything the engine needs to know to run a piece of code: what variables exist, what `this` refers to, and where to look for outer variables.
 
-Whenever JavaScript executes code, it creates an execution context containing everything needed to run that code.
+**Types of execution context:**
 
-Think of it as a **workspace** where JavaScript stores:
+1. **Global Execution Context (GEC)** — created once, when the script first starts running. There's only ever one of these.
+2. **Function Execution Context (FEC)** — created every time a function is called. Every single function call gets its own brand-new execution context.
+3. **Eval Execution Context** — created for code run inside `eval()` (rare, mostly avoided in real code).
 
-- Variables
-- Functions
-- The value of `this`
-- Information about outer scopes
+**What an execution context consists of (its three main parts):**
 
-Every piece of JavaScript code runs inside an execution context.
+1. **Variable Environment** — where `var` declarations and function declarations live. Also holds the `arguments` object for function contexts.
+2. **Lexical Environment** — where `let`/`const` declarations live, plus a reference to the **outer** lexical environment (this outer link is what makes the _scope chain_ possible — see Q14).
+3. **`this` binding** — determines what `this` refers to inside that context, decided by _how_ the function was called (see Q30 in Section 4 for `call`/`apply`/`bind`).
+
+**Two phases every execution context goes through:**
+
+1. **Creation phase** (before any code actually runs):
+   - The `this` binding is determined.
+   - Memory is set up for variables and functions — `var` variables are initialized to `undefined`, function declarations are stored in full, and `let`/`const` are put in a "temporal dead zone" (see Q15).
+2. **Execution phase**:
+   - Code runs line by line, top to bottom, assigning actual values to variables and executing statements.
+
+**Simple analogy:** Think of an execution context as a fresh notebook page created every time a function is called. Before you write anything (creation phase), you first rule out sections for your variables and note down the names you'll use — some pre-filled as blank (`undefined`), functions written out in full. Then (execution phase) you actually fill in the values as you go.
+
+**Interview soundbite:**
+
+> "An execution context is the environment JS creates to run a piece of code — it tracks variables, function declarations, and what `this` refers to. There's one global context, and a new one is created every time any function is called."
 
 </details>
 
 ---
 
+### 13. What is the call stack?
+
 <details>
-<summary><strong>🏗 Types of Execution Context</strong></summary>
+<summary><b>Click to expand answer</b></summary>
 
-There are three types.
+The **call stack** is how JavaScript keeps track of _where it is_ in the program — specifically, which function is currently running, and which functions called it (so it knows where to return to once the current one finishes).
 
-### 1. Global Execution Context (GEC)
+It works exactly like a physical stack of plates: **Last In, First Out (LIFO)**. Whatever function was called most recently is the one on top, and it's the one that finishes (and gets removed) first.
 
-Created once when the JavaScript program starts.
-
-```javascript
-console.log("Hello");
-```
-
-The first execution context created is the Global Execution Context.
-
-It contains:
-
-- Global variables
-- Global functions
-- `this` (Window in browser)
-
-Only one Global Execution Context exists.
-
----
-
-### 2. Function Execution Context (FEC)
-
-Every time a function is called, JavaScript creates a new execution context.
-
-```javascript
-function greet() {
-  let name = "John";
+```js
+function first() {
+  second();
+  console.log("first done");
+}
+function second() {
+  third();
+  console.log("second done");
+}
+function third() {
+  console.log("third done");
 }
 
-greet();
+first();
 ```
 
-Calling `greet()` creates a Function Execution Context.
+**Step-by-step stack trace:**
 
-If the function is called 100 times,
+1. `first()` is called → pushed onto the stack. Stack: `[first]`
+2. Inside `first`, `second()` is called → pushed. Stack: `[first, second]`
+3. Inside `second`, `third()` is called → pushed. Stack: `[first, second, third]`
+4. `third` finishes (logs "third done") → popped off. Stack: `[first, second]`
+5. Back in `second`, it logs "second done" → finishes → popped off. Stack: `[first]`
+6. Back in `first`, it logs "first done" → finishes → popped off. Stack: `[]`
 
-100 execution contexts are created.
+**Why this matters for interviews:**
 
----
+- **Stack Overflow errors** happen when the call stack grows too large — most commonly from infinite/uncontrolled recursion (a function that keeps calling itself without a proper base case to stop):
 
-### 3. Eval Execution Context
-
-Created when using `eval()`.
-
-Rarely used.
-
-```javascript
-eval("let x = 10");
-```
-
-Avoid using `eval()`.
-
-</details>
-
----
-
-<details>
-<summary><strong>⚙️ Phases of Execution Context</strong></summary>
-
-Every execution context has **two phases**.
-
----
-
-## Phase 1 — Memory Creation Phase
-
-JavaScript scans the code before executing it.
-
-It allocates memory.
-
-Example:
-
-```javascript
-console.log(a);
-
-var a = 10;
-
-function greet() {}
-```
-
-Memory becomes:
-
-```
-a → undefined
-
-greet → entire function
-```
-
-Nothing executes yet.
-
----
-
-## Phase 2 — Execution Phase
-
-Now JavaScript executes line by line.
-
-```
-console.log(a)
-```
-
-prints
-
-```
-undefined
-```
-
-Then
-
-```
-a = 10
-```
-
-updates memory.
-
-</details>
-
----
-
-<details>
-<summary><strong>🧠 Visual Example</strong></summary>
-
-Code
-
-```javascript
-var a = 5;
-
-function add(x, y) {
-  return x + y;
+```js
+function recurse() {
+  return recurse(); // no base case — keeps pushing forever
 }
-
-let result = add(2, 3);
+recurse(); // RangeError: Maximum call stack size exceeded
 ```
 
-Memory Phase
+- JavaScript is **single-threaded** — meaning there's only **one call stack**, so only one thing can run at a time. This is exactly why understanding the call stack matters when you get into the event loop, callbacks, and async code (`setTimeout`, Promises) — those don't run on the call stack directly; they wait in queues until the stack is empty.
+- Browser DevTools show you the call stack directly when you pause on a breakpoint or hit an error — reading it top-to-bottom tells you exactly which function called which, which is invaluable for debugging.
 
-```
-a        → undefined
+**Interview soundbite:**
 
-add      → function
-
-result   → uninitialized
-```
-
-Execution Phase
-
-```
-a = 5
-
-add()
-
-result = 5
-```
+> "The call stack is a LIFO structure that tracks function calls — every time a function is invoked, a new frame is pushed on top; when it returns, that frame is popped off. Since JS has just one call stack, it can only execute one thing at a time, which is the foundation for understanding synchronous vs. asynchronous behavior."
 
 </details>
 
 ---
 
-<details>
-<summary><strong>🎯 Interview Tip</strong></summary>
-
-Execution Context is **not** the Call Stack.
-
-Execution Context is the environment.
-
-Call Stack stores execution contexts.
-
-</details>
-
----
-
-# 13. What is the Call Stack?
+### 14. What is lexical scoping and the scope chain?
 
 <details>
-<summary><strong>📖 Interview Answer</strong></summary>
+<summary><b>Click to expand answer</b></summary>
 
-The Call Stack is a stack data structure used by JavaScript to keep track of function execution.
+**Lexical scoping** means a variable's scope (where it can be accessed from) is determined by **where it is physically written in the code** — not by how or where the function is later called from. "Lexical" basically means "based on position in the source code."
 
-Whenever a function is called,
-
-its execution context is pushed onto the stack.
-
-When the function finishes,
-
-it is popped from the stack.
-
-Since JavaScript is single-threaded,
-
-only one execution context runs at a time.
-
-</details>
-
----
-
-<details>
-<summary><strong>📦 Example</strong></summary>
-
-```javascript
-function one() {
-  two();
-}
-
-function two() {
-  three();
-}
-
-function three() {
-  console.log("Done");
-}
-
-one();
-```
-
-Call Stack
-
-```
-Global
-```
-
-↓
-
-```
-Global
-one()
-```
-
-↓
-
-```
-Global
-one()
-two()
-```
-
-↓
-
-```
-Global
-one()
-two()
-three()
-```
-
-After completion
-
-```
-Global
-one()
-two()
-```
-
-↓
-
-```
-Global
-one()
-```
-
-↓
-
-```
-Global
-```
-
-</details>
-
----
-
-<details>
-<summary><strong>⚠️ Stack Overflow</strong></summary>
-
-Infinite recursion fills the call stack.
-
-```javascript
-function hello() {
-  hello();
-}
-
-hello();
-```
-
-Eventually,
-
-```
-Maximum call stack size exceeded
-```
-
-</details>
-
----
-
-<details>
-<summary><strong>🎯 Interview Tip</strong></summary>
-
-Call Stack follows
-
-```
-LIFO
-
-Last In
-
-First Out
-```
-
-</details>
-
----
-
-# 14. What is Lexical Scoping and the Scope Chain?
-
-<details>
-<summary><strong>📖 Interview Answer</strong></summary>
-
-Lexical Scoping means that the scope of a variable is determined by **where it is written in the source code**, not where the function is called.
-
-A function can access:
-
-- Its own variables
-- Variables from parent scopes
-- Global variables
-
-This lookup process is called the **Scope Chain**.
-
-</details>
-
----
-
-<details>
-<summary><strong>🏗 Example</strong></summary>
-
-```javascript
-let country = "India";
-
+```js
 function outer() {
-  let city = "Hyderabad";
+  const name = "Vamsi";
 
   function inner() {
-    let area = "Hitech";
-
-    console.log(country);
-    console.log(city);
-    console.log(area);
+    console.log(name); // inner can access `name` because of WHERE it's written
   }
 
   inner();
 }
+outer(); // "Vamsi"
+```
 
+`inner` can see `name` simply because it's _nested inside_ `outer` in the code — this relationship is fixed at the time you write the code, not decided at runtime.
+
+**The scope chain** is the mechanism that makes lexical scoping actually work. When you reference a variable, JS looks for it:
+
+1. First, in the **current** scope.
+2. If not found, it looks in the **next outer** scope.
+3. It keeps going outward, one level at a time, until it either finds the variable or reaches the **global scope**.
+4. If it's still not found at the global scope, you get a `ReferenceError`.
+
+```js
+const globalVar = "I'm global";
+
+function outer() {
+  const outerVar = "I'm in outer";
+
+  function inner() {
+    const innerVar = "I'm in inner";
+    console.log(innerVar); // found in inner's own scope
+    console.log(outerVar); // not in inner, found in outer's scope
+    console.log(globalVar); // not in inner or outer, found in global scope
+  }
+
+  inner();
+}
 outer();
 ```
 
-The inner function can access
+Each scope keeps a hidden reference to its **parent** scope — this chain of references (inner → outer → global) is literally the "scope chain." This is also exactly the mechanism closures rely on (see Section 3).
 
-```
-area
+**Important distinction — lexical vs dynamic scoping:**
+JS uses lexical (a.k.a. static) scoping — decided by _where code is written_. Some other languages use dynamic scoping, where a variable's value would depend on the **call stack at runtime** (i.e., who called the function) instead of where it's written. JS does not do this for variable scope (though `this` does behave more "dynamically," since it depends on how a function is called — that's a different mechanism from scope).
 
-↓
+**Interview soundbite:**
 
-city
-
-↓
-
-country
-```
-
-This is the Scope Chain.
+> "Lexical scoping means scope is determined by where code is physically written, not how it's called. The scope chain is how JS resolves a variable — it looks in the current scope first, then walks outward through each parent scope until it finds the variable or hits the global scope."
 
 </details>
 
 ---
 
-<details>
-<summary><strong>❌ Reverse is Not Possible</strong></summary>
+### 15. What is hoisting, and how does it differ for `var`, `let`/`const`, and function declarations?
 
-```javascript
-function outer() {
-  function inner() {
-    let x = 10;
+<details>
+<summary><b>Click to expand answer</b></summary>
+
+**Hoisting** is JavaScript's behavior of processing variable and function **declarations** during the creation phase of an execution context (see Q12) — _before_ any code actually runs line by line. This makes it look like declarations were "moved to the top" of their scope, even though the code isn't physically rearranged — the engine just registers names in memory ahead of time.
+
+**How it differs across declaration types:**
+
+**1. `var`**
+
+- Hoisted **and initialized to `undefined`** immediately.
+- This means you can reference a `var` variable before its declaration line without a crash — you just get `undefined` instead of the actual value.
+
+```js
+console.log(x); // undefined (not an error!)
+var x = 5;
+console.log(x); // 5
+```
+
+**2. `let` and `const`**
+
+- Also technically hoisted (the engine is aware they exist) — but they are **not initialized**. They sit in something called the **Temporal Dead Zone (TDZ)** from the start of their scope until the line where they're actually declared.
+- Accessing them before that line throws a `ReferenceError`, not `undefined`.
+
+```js
+console.log(y); // ReferenceError: Cannot access 'y' before initialization
+let y = 10;
+```
+
+**3. Function declarations**
+
+- Hoisted **completely** — both the name _and_ the entire function body are available immediately, from the very top of the scope.
+
+```js
+sayHi(); // works! "Hi!"
+function sayHi() {
+  console.log("Hi!");
+}
+```
+
+**4. Function expressions & arrow functions**
+
+- These follow the hoisting rule of _whatever variable type they're assigned to_ (`var`, `let`, or `const`) — the function body itself is never hoisted, only the variable declaration is.
+
+```js
+sayBye(); // TypeError: sayBye is not a function
+var sayBye = function () {
+  console.log("Bye!");
+};
+```
+
+**Summary table:**
+
+| Declaration type               | Hoisted?                     | Initial value before declaration line | Accessing early               |
+| ------------------------------ | ---------------------------- | ------------------------------------- | ----------------------------- |
+| `var`                          | Yes                          | `undefined`                           | Returns `undefined`, no error |
+| `let` / `const`                | Yes (but in TDZ)             | Uninitialized                         | `ReferenceError`              |
+| `function` declaration         | Yes, fully                   | Entire function                       | Works normally                |
+| function expression / arrow fn | Only the variable is hoisted | Depends on `var`/`let`/`const` used   | Follows that variable's rule  |
+
+**Interview soundbite:**
+
+> "Hoisting happens because the engine registers all declarations during the creation phase, before running any code. `var` is hoisted and set to `undefined`. `let`/`const` are hoisted but stay uninitialized in the Temporal Dead Zone, so accessing them early throws an error. Function declarations are hoisted completely, body and all, so they can be called before they appear in the code."
+
+</details>
+
+---
+
+### 16. Why can you call a function declaration before it's defined, but not a function expression?
+
+<details>
+<summary><b>Click to expand answer</b></summary>
+
+This comes straight from the hoisting rules explained above, applied specifically to functions.
+
+**Function declaration — fully hoisted, body included:**
+
+```js
+sayHi(); // "Hi!" — works fine
+function sayHi() {
+  console.log("Hi!");
+}
+```
+
+During the creation phase, the JS engine scans the scope and finds `function sayHi() {...}`. Because it's a full declaration, the engine hoists **the entire thing** — name and function body together — to the top of the scope. So by the time execution starts, `sayHi` is already a fully-formed, callable function, no matter where you call it from within that scope.
+
+**Function expression — only the variable is hoisted, not the function:**
+
+```js
+sayBye(); // TypeError: sayBye is not a function
+var sayBye = function () {
+  console.log("Bye!");
+};
+```
+
+Here, `sayBye` is just a variable that happens to be _assigned_ a function value. During the creation phase, only the `var sayBye` part is hoisted (and initialized to `undefined`, per `var` rules) — the assignment (`= function () {...}`) only happens later, when execution actually reaches that line. So when you try to call `sayBye()` before that line, you're really trying to call `undefined()`, hence the `TypeError`.
+
+If it were written with `let`/`const` instead:
+
+```js
+sayBye(); // ReferenceError: Cannot access 'sayBye' before initialization
+const sayBye = function () {
+  console.log("Bye!");
+};
+```
+
+Same idea, but now you hit the TDZ instead of getting `undefined` — the error type changes, but the core reason (the function body isn't attached yet) is the same.
+
+**The one-line reason interviewers want to hear:**
+
+> "A function declaration is hoisted as a complete, ready-to-call unit. A function expression is just hoisted as a variable — the function itself is only attached once that specific line of code actually runs."
+
+</details>
+
+---
+
+### 17. What is the difference between global, function, and block scope?
+
+<details>
+<summary><b>Click to expand answer</b></summary>
+
+Scope determines **where in your code a variable is accessible**. JavaScript has three levels:
+
+**1. Global scope**
+
+- Variables declared outside of any function or block.
+- Accessible from **anywhere** in your code, including inside every function and block.
+- `var`, `let`, and `const` at the top level all become global variables (though `var` additionally attaches itself as a property of the global object, e.g. `window` in browsers — `let`/`const` do not).
+
+```js
+const appName = "MyApp"; // global
+
+function showName() {
+  console.log(appName); // accessible here
+}
+```
+
+**2. Function scope**
+
+- Variables declared with **`var`** are scoped to the entire nearest enclosing **function** — not to any inner blocks (`if`, `for`, etc.) within that function.
+
+```js
+function demo() {
+  if (true) {
+    var x = 10; // function-scoped, NOT block-scoped
   }
-
-  console.log(x);
+  console.log(x); // 10 — accessible outside the `if` block, still inside the function
 }
 ```
 
-Output
+**3. Block scope**
 
-```
-ReferenceError
-```
+- Variables declared with **`let`** and **`const`** are scoped to the nearest enclosing pair of curly braces `{ }` — an `if` block, a `for` loop, or even a standalone `{ }` block.
 
-Parent cannot access child variables.
-
-</details>
-
----
-
-<details>
-<summary><strong>🧠 Visual</strong></summary>
-
-```
-Global Scope
-
-↓
-
-Outer Scope
-
-↓
-
-Inner Scope
-```
-
-Variable lookup happens upward.
-
-Never downward.
-
-</details>
-
----
-
-# 15. What is Hoisting?
-
-<details>
-<summary><strong>📖 Interview Answer</strong></summary>
-
-Hoisting is JavaScript's behavior of moving declarations to the top of their scope during the memory creation phase.
-
-Only declarations are hoisted—not initializations.
-
-</details>
-
----
-
-<details>
-<summary><strong>var Hoisting</strong></summary>
-
-```javascript
-console.log(a);
-
-var a = 10;
-```
-
-Internally
-
-```javascript
-var a;
-
-console.log(a);
-
-a = 10;
-```
-
-Output
-
-```
-undefined
-```
-
-</details>
-
----
-
-<details>
-<summary><strong>let and const Hoisting</strong></summary>
-
-They are hoisted.
-
-But they remain in the
-
-**Temporal Dead Zone (TDZ)**
-
-until execution reaches their declaration.
-
-```javascript
-console.log(a);
-
-let a = 10;
-```
-
-Output
-
-```
-ReferenceError
-```
-
-Not
-
-```
-undefined
-```
-
-</details>
-
----
-
-<details>
-<summary><strong>Function Declaration Hoisting</strong></summary>
-
-```javascript
-hello();
-
-function hello() {
-  console.log("Hello");
+```js
+function demo() {
+  if (true) {
+    let y = 20; // block-scoped
+  }
+  console.log(y); // ReferenceError: y is not defined — can't escape the `if` block
 }
 ```
 
-Works perfectly.
+**Side-by-side comparison:**
 
-Because the entire function is hoisted.
+|                                                                     | `var`            | `let` / `const`     |
+| ------------------------------------------------------------------- | ---------------- | ------------------- |
+| Scope boundary                                                      | Nearest function | Nearest block `{ }` |
+| Accessible outside an `if`/`for` block (but still in the function)? | Yes              | No                  |
+| Re-declarable in the same scope?                                    | Yes (no error)   | No (`SyntaxError`)  |
 
-</details>
+**Why block scoping (`let`/`const`) is generally preferred today:**
 
----
+- It matches what most developers _intuitively_ expect — a variable declared inside a loop or `if` block shouldn't "leak" outside of it.
+- It directly prevents bugs like the classic `var` closure-in-a-loop problem (see Q21 in Section 3), since each block gets its own fresh variable.
 
-<details>
-<summary><strong>Function Expression Hoisting</strong></summary>
+**Interview soundbite:**
 
-```javascript
-hello();
-
-var hello = function () {
-  console.log("Hello");
-};
-```
-
-Memory
-
-```
-hello → undefined
-```
-
-Execution
-
-```
-undefined()
-```
-
-Output
-
-```
-TypeError
-```
+> "Global scope is accessible everywhere. Function scope, which is what `var` follows, means a variable is visible anywhere inside its containing function, regardless of nested blocks. Block scope, which `let`/`const` follow, restricts a variable to the specific `{ }` block it was declared in — even a single `if` or `for` block boundary."
 
 </details>
 
 ---
 
-<details>
-<summary><strong>Hoisting Comparison Table</strong></summary>
-
-| Declaration          | Hoisted          | Initial Value   | Before Declaration |
-| -------------------- | ---------------- | --------------- | ------------------ |
-| var                  | ✅               | undefined       | undefined          |
-| let                  | ✅               | TDZ             | ReferenceError     |
-| const                | ✅               | TDZ             | ReferenceError     |
-| function declaration | ✅               | Entire Function | Works              |
-| function expression  | Variable hoisted | undefined       | TypeError          |
-
-</details>
-
----
-
-# 16. Why can Function Declarations be called before they're defined, but not Function Expressions?
+### 18. What is an IIFE, and why was it historically used?
 
 <details>
-<summary><strong>📖 Interview Answer</strong></summary>
+<summary><b>Click to expand answer</b></summary>
 
-Function declarations are fully hoisted during the memory creation phase, meaning the entire function definition is available before execution begins.
+**IIFE** stands for **Immediately Invoked Function Expression** — a function that is defined and **called immediately**, right at the moment it's created, without ever being assigned to a variable name or called elsewhere later.
 
-Function expressions behave like variables. Only the variable declaration is hoisted, not the assigned function.
+**Basic syntax:**
 
-</details>
-
----
-
-<details>
-<summary><strong>Example</strong></summary>
-
-### Function Declaration
-
-```javascript
-greet();
-
-function greet() {
-  console.log("Hello");
-}
-```
-
-Works because `greet` already points to the function.
-
----
-
-### Function Expression
-
-```javascript
-greet();
-
-var greet = function () {
-  console.log("Hello");
-};
-```
-
-During memory creation:
-
-```javascript
-var greet = undefined;
-```
-
-So JavaScript tries to execute:
-
-```javascript
-undefined();
-```
-
-Result:
-
-```
-TypeError: greet is not a function
-```
-
----
-
-### With `let`
-
-```javascript
-greet();
-
-let greet = function () {};
-```
-
-Result:
-
-```
-ReferenceError
-```
-
-because `greet` is in the TDZ.
-
-</details>
-
----
-
-# 17. What is the Difference Between Global, Function, and Block Scope?
-
-<details>
-<summary><strong>📖 Interview Answer</strong></summary>
-
-Scope defines where a variable is accessible.
-
-JavaScript has three main scopes:
-
-- Global Scope
-- Function Scope
-- Block Scope
-
-</details>
-
----
-
-<details>
-<summary><strong>🌍 Global Scope</strong></summary>
-
-Variables declared outside any function or block.
-
-```javascript
-let name = "Vamsi";
-
-function greet() {
-  console.log(name);
-}
-```
-
-Accessible everywhere.
-
-</details>
-
----
-
-<details>
-<summary><strong>🏠 Function Scope</strong></summary>
-
-Variables declared inside a function.
-
-```javascript
-function test() {
-  let age = 25;
-}
-
-console.log(age);
-```
-
-Output
-
-```
-ReferenceError
-```
-
-</details>
-
----
-
-<details>
-<summary><strong>🧱 Block Scope</strong></summary>
-
-Blocks include:
-
-- if
-- for
-- while
-- switch
-- {}
-
-`let` and `const` are block scoped.
-
-```javascript
-if (true) {
-  let x = 10;
-}
-
-console.log(x);
-```
-
-Output
-
-```
-ReferenceError
-```
-
-`var` ignores block scope.
-
-```javascript
-if (true) {
-  var x = 10;
-}
-
-console.log(x);
-```
-
-Output
-
-```
-10
-```
-
-</details>
-
----
-
-<details>
-<summary><strong>Comparison Table</strong></summary>
-
-| Feature            | Global                       | Function | Block |
-| ------------------ | ---------------------------- | -------- | ----- |
-| Visible Everywhere | ✅                           | ❌       | ❌    |
-| Created By         | Outside all blocks/functions | Function | {}    |
-| let                | ✅                           | ✅       | ✅    |
-| const              | ✅                           | ✅       | ✅    |
-| var                | ✅                           | ✅       | ❌    |
-
-</details>
-
----
-
-# 18. What is an IIFE, and why was it historically used?
-
-<details>
-<summary><strong>📖 Interview Answer</strong></summary>
-
-An **IIFE (Immediately Invoked Function Expression)** is a function that is defined and executed immediately after it is created.
-
-Syntax:
-
-```javascript
+```js
 (function () {
-  console.log("Runs immediately");
+  console.log("I run immediately!");
 })();
 ```
 
-or
+**Why it's written with those extra parentheses:** JavaScript's parser needs to see `function` as part of an _expression_, not a _declaration_ (declarations can't be immediately invoked this way, and would actually cause a syntax error without a name if attempted directly). Wrapping it in `( ... )` forces the engine to treat it as an expression, so the trailing `()` can then be used to call it right away.
 
-```javascript
+Arrow function version:
+
+```js
 (() => {
-  console.log("Runs immediately");
+  console.log("Also runs immediately!");
 })();
 ```
 
-</details>
+**Historically, why was this used?**
 
----
+**1. Avoiding global scope pollution.** Before `let`/`const`/modules existed, every `var` at the top level became a property on the global object, and multiple `<script>` tags on the same page all shared that same global scope — creating serious risk of naming collisions between different scripts/libraries.
 
-<details>
-<summary><strong>🤔 Why was it used historically?</strong></summary>
-
-Before ES6 introduced `let`, `const`, and modules, developers mainly had `var`, which is function-scoped.
-
-Variables declared with `var` leaked out of blocks.
-
-IIFEs created a new function scope, preventing variables from polluting the global namespace.
-
-```javascript
+```js
 (function () {
-  var secret = "Hidden";
+  var privateVar = "hidden from global scope";
+  // any code here is fully isolated
 })();
 
-console.log(secret); // ReferenceError
+console.log(typeof privateVar); // "undefined" — never leaked outside
 ```
 
-Without the IIFE:
+**2. Creating private scope / data privacy (the "module pattern").** Since only what you explicitly `return` escapes the IIFE, everything else defined inside stays fully private — this is one of the earliest ways developers simulated "private" variables and methods in JS, well before ES6 modules or classes with `#private` fields existed.
 
-```javascript
-var secret = "Hidden";
+```js
+const counterModule = (function () {
+  let count = 0; // private, only reachable through the returned object
+  return {
+    increment: () => ++count,
+    getCount: () => count,
+  };
+})();
+
+counterModule.increment();
+console.log(counterModule.getCount()); // 1
+console.log(counterModule.count); // undefined — private
 ```
 
-`secret` would become a global variable.
+**3. Fixing the classic `var`-in-a-loop closure bug** — covered in detail in Q21 (Section 3), by giving each loop iteration its own private, isolated scope via a fresh function call.
+
+**Are IIFEs still needed today?**
+Much less often. `let`/`const` give you block scoping natively, and ES6 modules give every file its own private scope automatically (nothing leaks to the global scope unless explicitly exported). That said, IIFEs still show up in some bundler-output code and certain library patterns, so recognizing them is still a common interview topic even if you rarely need to write one yourself in modern code.
+
+**Interview soundbite:**
+
+> "An IIFE is a function that runs the moment it's defined. Historically it was used to avoid polluting the global scope and to fake private variables via closures, since anything declared inside stays hidden unless explicitly returned. Modern JS has mostly replaced this need with block scoping and ES6 modules, but it's still useful to recognize the pattern."
 
 </details>
 
 ---
-
-<details>
-<summary><strong>📦 Real-world Example</strong></summary>
-
-```javascript
-for (var i = 1; i <= 3; i++) {
-  (function (num) {
-    setTimeout(() => {
-      console.log(num);
-    }, 1000);
-  })(i);
-}
-```
-
-Output:
-
-```
-1
-2
-3
-```
-
-Without the IIFE (using `var` directly), all callbacks would print:
-
-```
-4
-4
-4
-```
-
-Today, this is more simply written with `let`:
-
-```javascript
-for (let i = 1; i <= 3; i++) {
-  setTimeout(() => console.log(i), 1000);
-}
-```
-
-</details>
-
----
-
-<details>
-<summary><strong>🎯 Interview Tip</strong></summary>
-
-Today, IIFEs are used less frequently because:
-
-- `let` and `const` provide block scope.
-- ES Modules provide file-level scope.
-- Modern bundlers isolate module code.
-
-However, you'll still encounter IIFEs in older codebases and interview questions, so it's important to recognize the pattern and understand why it was useful.
-
-</details>
-
----
-
-# ⭐ Quick Interview Revision
-
-| Topic                      | One-line Summary                                         |
-| -------------------------- | -------------------------------------------------------- |
-| Execution Context          | Environment where JavaScript executes code.              |
-| Global Execution Context   | Created once when the program starts.                    |
-| Function Execution Context | Created every time a function is called.                 |
-| Call Stack                 | LIFO stack that manages execution contexts.              |
-| Lexical Scope              | Scope determined by where code is written.               |
-| Scope Chain                | Variable lookup from current scope to parent scopes.     |
-| Hoisting                   | Declarations are processed before execution.             |
-| `var`                      | Hoisted and initialized to `undefined`.                  |
-| `let` / `const`            | Hoisted but remain in the TDZ until declared.            |
-| Function Declaration       | Fully hoisted; callable before definition.               |
-| Function Expression        | Variable hoisted; function assigned during execution.    |
-| Global Scope               | Accessible everywhere.                                   |
-| Function Scope             | Accessible only inside the function.                     |
-| Block Scope                | Accessible only inside `{}` with `let`/`const`.          |
-| IIFE                       | Function executed immediately to create a private scope. |
